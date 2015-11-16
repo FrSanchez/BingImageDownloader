@@ -42,7 +42,6 @@ namespace BingDownloader
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex.ToString());
-				Thread.Sleep(10000);
 			}
 		}
 
