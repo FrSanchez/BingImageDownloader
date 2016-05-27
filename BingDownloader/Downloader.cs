@@ -26,7 +26,8 @@ namespace BingDownloader
 
 		List<string> Locales;
 
-		const string imageUrlPattern = "(g_img={url\\:'(?<url>.*)',id)";
+// g_img={url: "\/az\/hprichbg\/rb\/Paraglider_EN-US7985350118_1920x1080.jpg",id
+		const string imageUrlPattern = "(g_img={url\\: \"(?<url>.*)\",id)";
 
 		Options options = new Options ();
 
@@ -58,9 +59,10 @@ namespace BingDownloader
 					uriBuilder.Query = string.Format ("scope=web&setmkt={0}", current);
 					var streamReader = new StreamReader (client.OpenRead (uriBuilder.Uri));
 					string input = streamReader.ReadToEnd ();
+					Console.WriteLine("Uri: {0}", uriBuilder.ToString());
 					ParseData (input);
 					streamReader.Close ();
-					Trace.WriteLine (string.Format ("loc {0} image {1} file {2}", current, ImagePath, FileName));
+					Console.WriteLine (string.Format ("loc {0} image {1} file {2}", current, ImagePath, FileName));
 					if (!string.IsNullOrEmpty (FileName) && !File.Exists (FileName)) {
 						string uriString = string.Format ("{0}/{1}", baseBING, ImagePath);
 						Image image = DownloadImage (new Uri (uriString));
@@ -94,7 +96,7 @@ namespace BingDownloader
 		void ListCountries (string input)
 		{
 			foreach (Match match in Regex.Matches(input, "(mkt=([a-zA-Z\\-]*))")) {
-				Trace.WriteLine (match.Value);
+				Console.WriteLine (match.Value);
 				string value = match.Groups [match.Groups.Count - 1].Value;
 				if (!Locales.Contains (value)) {
 					Locales.Add (value);
@@ -113,14 +115,14 @@ namespace BingDownloader
 			});
 			OriginalFileName = array [array.Length - 1];
 			string arg = "none";
-			Trace.WriteLine (string.Format ("Original filename: {0}", OriginalFileName));
+			Console.WriteLine (string.Format ("Original filename: {0}", OriginalFileName));
 			match = Regex.Match (OriginalFileName, "(?<name>[a-zA-Z0-9]+)_(?<locale>[a-zA-Z\\-]{5})*(?<suffix>.*)\\.(?<ext>.*)");
 			if (match.Groups.Count > 1) {
 				OriginalFileName = string.Format ("{0}.{1}", match.Groups ["name"], match.Groups ["ext"]);
 				arg = match.Groups ["locale"].Value;
 			}
 			FileName = !string.IsNullOrEmpty (OriginalFileName) ? Path.Combine (options.Destination, OriginalFileName) : string.Empty;
-			Trace.WriteLine (string.Format ("New file {0} (locale={1})", FileName, arg));
+			Console.WriteLine (string.Format ("New file {0} (locale={1})", FileName, arg));
 		}
 
 		void SaveImage (Image image)
