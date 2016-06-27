@@ -116,10 +116,13 @@ namespace BingDownloader
 			OriginalFileName = array [array.Length - 1];
 			string arg = "none";
 			Console.WriteLine (string.Format ("Original filename: {0}", OriginalFileName));
-			match = Regex.Match (OriginalFileName, "(?<name>[a-zA-Z0-9]+)_(?<locale>[a-zA-Z\\-]{5})*(?<suffix>.*)\\.(?<ext>.*)");
+			match = Regex.Match (OriginalFileName, "(?<name>[a-zA-Z0-9]+)_(?<locale>[a-zA-Z\\-]{3,5})*(?<suffix>.*)_(?<sizex>[0-9]+)x(?<sizey>[0-9]+)\\.(?<ext>.*)");
 			if (match.Groups.Count > 1) {
-				OriginalFileName = string.Format ("{0}.{1}", match.Groups ["name"], match.Groups ["ext"]);
+				OriginalFileName = string.Format ("{0}_{1}x{2}.{3}", match.Groups ["name"], match.Groups["sizex"], match.Groups["sizey"], match.Groups ["ext"]);
 				arg = match.Groups ["locale"].Value;
+				foreach(var g in match.Groups) {
+					Console.WriteLine(g.ToString());
+				};
 			}
 			FileName = !string.IsNullOrEmpty (OriginalFileName) ? Path.Combine (options.Destination, OriginalFileName) : string.Empty;
 			Console.WriteLine (string.Format ("New file {0} (locale={1})", FileName, arg));
