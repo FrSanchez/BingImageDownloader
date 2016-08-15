@@ -7,6 +7,9 @@
 packages/
 TestResults/
 
+target/
+dependency-reduced-pom.xml
+
 # globs
 Makefile.in
 *.DS_Store
@@ -38,3 +41,4 @@ Thumbs.db
 
 #dotCover
 *.dotCover
+/target/
