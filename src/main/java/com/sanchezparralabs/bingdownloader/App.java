@@ -35,6 +35,14 @@ public class App
                 directory = directory.substring(0, directory.lastIndexOf('/') + 1);
             }
         }
+        
+        Downloader downloader = new Downloader();
+        try {
+            downloader.enumerateCountries();
+        } catch (Exception e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
 
         System.out.println("Directory: " + directory);
         Duplicates dup = new Duplicates();
@@ -43,7 +51,7 @@ public class App
             System.out.println("Deleting " + f);
             if (f.exists() && !f.isDirectory()) {
                 try {
-//                    f.delete();
+                    f.delete();
                 } catch (Exception e) {
                     System.err.println(e.getMessage());
                     e.printStackTrace(System.err);

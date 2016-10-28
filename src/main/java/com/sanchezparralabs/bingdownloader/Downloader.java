@@ -1,0 +1,50 @@
+package com.sanchezparralabs.bingdownloader;
+
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.time.Duration;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
+
+public class Downloader implements Callback {
+
+    Set<String> locales = new HashSet<>();
+
+    public void enumerateCountries() throws Exception {
+        HtmlReader.loadFromUrl("http://www.bing.com/account/general?FORM=O2HV46", this, Duration.ofSeconds(2));
+    }
+
+    @Override
+    public void onError(InputStream inputStream, HttpURLConnection connection) throws Exception {
+        Map<String, List<String>> headers = connection.getHeaderFields();
+        System.err.println(headers);
+        String theString = IOUtils.toString(inputStream, "UTF-8");
+        System.err.println(theString);
+    }
+
+    @Override
+    public void onSuccess(InputStream inputStream, HttpURLConnection connection) throws Exception {
+        Map<String, List<String>> headers = connection.getHeaderFields();
+        System.out.println(headers);
+        String charset = StringUtils.substringAfter(connection.getContentType(), "charset=");
+        if (charset == null) {
+            charset = "UTF-8";
+        }
+        String theString = IOUtils.toString(inputStream, charset.toUpperCase());
+        Pattern p = Pattern.compile("(mkt=([a-zA-Z\\-]*))");
+        Matcher m = p.matcher(theString);
+        while (m.find()) {
+            if (m.groupCount() == 2) {
+                locales.add(m.group(2));
+            }
+            System.out.println(m.group(0));
+        }
+    }
+}
