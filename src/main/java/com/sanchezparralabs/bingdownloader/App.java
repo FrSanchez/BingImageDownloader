@@ -37,11 +37,11 @@ public class App
         }
         
         Downloader downloader = new Downloader();
-        try {
-            downloader.enumerateCountries();
-        } catch (Exception e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
+        if (downloader.isInitialized()) {
+            downloader.batchDownload();
+        } else {
+            System.err.println("Bye bye");
+            System.exit(255);
         }
 
         System.out.println("Directory: " + directory);

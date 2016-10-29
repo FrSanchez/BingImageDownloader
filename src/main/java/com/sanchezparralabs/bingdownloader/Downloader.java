@@ -15,7 +15,17 @@ import org.apache.commons.lang.StringUtils;
 
 public class Downloader implements Callback {
 
-    Set<String> locales = new HashSet<>();
+    private Set<String> locales = null;
+    private boolean initialized = false;
+
+    public Downloader() {
+        try {
+            enumerateCountries();
+        } catch (Exception e) {
+            System.err.println("Can't instantiate downloader");
+            e.printStackTrace(System.err);
+        }
+    }
 
     public void enumerateCountries() throws Exception {
         HtmlReader.loadFromUrl("http://www.bing.com/account/general?FORM=O2HV46", this, Duration.ofSeconds(2));
@@ -27,10 +37,12 @@ public class Downloader implements Callback {
         System.err.println(headers);
         String theString = IOUtils.toString(inputStream, "UTF-8");
         System.err.println(theString);
+        locales = null;
     }
 
     @Override
     public void onSuccess(InputStream inputStream, HttpURLConnection connection) throws Exception {
+        locales = new HashSet<>();
         Map<String, List<String>> headers = connection.getHeaderFields();
         System.out.println(headers);
         String charset = StringUtils.substringAfter(connection.getContentType(), "charset=");
@@ -45,6 +57,37 @@ public class Downloader implements Callback {
                 locales.add(m.group(2));
             }
             System.out.println(m.group(0));
+        }
+        initialized = true;
+    }
+
+    public boolean isInitialized() {
+        return initialized;
+    }
+
+    public void batchDownload() {
+        for (String locale : locales) {
+            download(locale);
+        }
+
+    }
+
+    private void download(String locale) {
+        System.out.println("Downlading image from " + locale);
+        String url = String.format("http://www.bing.com?scope=web&setmkt=%s", locale);
+        int retry = 3;
+        while (retry > 0) {
+            try {
+                retry--;
+                HtmlReader.loadFromUrl(url, new BingPageHandler(), Duration.ofSeconds(10));
+                return;
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+                e.printStackTrace(System.err);
+                if (retry > 0) {
+                    System.err.println("Will retry again");
+                }
+            }
         }
     }
 }
