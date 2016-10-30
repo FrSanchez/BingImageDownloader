@@ -1,7 +1,7 @@
 /*                                                                                                                            
  * Copyright, 2016, Sanchez Parra Labs
  * All Rights Reserved
- */ 
+ */
 package com.sanchezparralabs.bingdownloader;
 
 import java.io.File;
@@ -20,6 +20,7 @@ import org.apache.log4j.Logger;
 
 /***
  * Class to save the file locally
+ * 
  * @author francisco.sanchez
  *
  */
@@ -29,10 +30,8 @@ public class ImageHandler implements Callback {
     private String originalFilename = null;
     private File targetFile = null;
 
-    public static final String imageNameRegex = "(?<name>[a-zA-Z0-9]+)_(?<locale>[a-zA-Z\\-]{3,5})*(?<suffix>.*)_(?<sizex>[0-9]+)x(?<sizey>[0-9]+)\\.(?<ext>.*)";
-
     public ImageHandler(String url, String path) throws FileAlreadyExistsException {
-        Pattern p = Pattern.compile(imageNameRegex);
+        Pattern p = Pattern.compile(App.imageNameRegex);
         Matcher m = p.matcher(path);
 
         if (m.find()) {

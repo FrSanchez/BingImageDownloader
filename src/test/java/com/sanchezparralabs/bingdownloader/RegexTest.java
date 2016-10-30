@@ -1,20 +1,27 @@
+/*                                                                                                                            
+ * Copyright, 2016, Sanchez Parra Labs
+ * All Rights Reserved
+ */
 package com.sanchezparralabs.bingdownloader;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.junit.Test;
 
 import junit.framework.TestCase;
 
+import org.junit.Test;
+
 public class RegexTest extends TestCase {
-    
-    public static final String imageUrlPattern = "(g_img=\\{url\\: \"(?<url>.*)\",id)";
-    
+
     @Test
+    // Make sure the image pattern will compile
     public void testImageUrlPatternTest() throws Exception {
-        String theString = "";
-        Pattern p = Pattern.compile(imageUrlPattern);
-        Matcher m = p.matcher(theString);
+        Pattern p = Pattern.compile(App.imageUrlPattern);
+        p.matcher("");
+    }
+
+    @Test
+    public void test() throws Exception {
+        Pattern p = Pattern.compile(App.imageNameRegex);
+        p.matcher("");
     }
 }

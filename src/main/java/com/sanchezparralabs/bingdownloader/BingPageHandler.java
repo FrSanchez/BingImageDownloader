@@ -23,7 +23,6 @@ import org.apache.commons.lang.StringUtils;
  */
 public class BingPageHandler implements Callback {
 
-    public static final String imageUrlPattern = "(g_img=\\{url\\: \"(?<url>.*)\",id)";
     private String url;
 
     public BingPageHandler(String url) {
@@ -45,7 +44,7 @@ public class BingPageHandler implements Callback {
             charset = "UTF-8";
         }
         String theString = IOUtils.toString(inputStream, charset.toUpperCase());
-        Pattern p = Pattern.compile(imageUrlPattern);
+        Pattern p = Pattern.compile(App.imageUrlPattern);
         Matcher m = p.matcher(theString);
         while (m.find()) {
             if (m.groupCount() >1) {
