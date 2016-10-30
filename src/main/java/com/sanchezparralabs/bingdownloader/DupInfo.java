@@ -1,3 +1,7 @@
+/*                                                                                                                            
+ * Copyright, 2016, Sanchez Parra Labs
+ * All Rights Reserved
+ */ 
 package com.sanchezparralabs.bingdownloader;
 
 import java.io.File;
@@ -13,6 +17,11 @@ import com.google.code.mathparser.MathParserFactory;
 import com.google.code.mathparser.factories.exception.impl.InvalidCharacterException;
 import com.google.code.mathparser.parser.calculation.Result;
 
+/**
+ * Holds info for duplicate files
+ * @author francisco.sanchez
+ *
+ */
 public class DupInfo {
     private String prefix;
     private final List<File> files;

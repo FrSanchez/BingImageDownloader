@@ -1,3 +1,7 @@
+/*                                                                                                                            
+ * Copyright, 2016, Sanchez Parra Labs
+ * All Rights Reserved
+ */ 
 package com.sanchezparralabs.bingdownloader;
 
 import java.io.File;
@@ -14,11 +18,14 @@ import java.util.regex.Pattern;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 
+/***
+ * Class to save the file locally
+ * @author francisco.sanchez
+ *
+ */
 public class ImageHandler implements Callback {
 
     private Logger logger = Logger.getLogger(ImageHandler.class);
-    private String url;
-    private String path;
     private String originalFilename = null;
     private File targetFile = null;
 
@@ -28,8 +35,6 @@ public class ImageHandler implements Callback {
         Pattern p = Pattern.compile(imageNameRegex);
         Matcher m = p.matcher(path);
 
-        this.url = url;
-        this.path = path;
         if (m.find()) {
             originalFilename = String.format("%s_%sx%s.%s", m.group(1), m.group(4), m.group(5), m.group(6));
             logger.info(originalFilename);

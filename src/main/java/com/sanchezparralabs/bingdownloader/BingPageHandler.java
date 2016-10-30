@@ -1,3 +1,7 @@
+/*                                                                                                                            
+ * Copyright, 2016, Sanchez Parra Labs
+ * All Rights Reserved
+ */ 
 package com.sanchezparralabs.bingdownloader;
 
 import java.io.InputStream;
@@ -12,6 +16,11 @@ import java.util.regex.Pattern;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 
+/***
+ * Downloads the bing page for every country 
+ * @author francisco.sanchez
+ *
+ */
 public class BingPageHandler implements Callback {
 
     public static final String imageUrlPattern = "(g_img=\\{url\\: \"(?<url>.*)\",id)";

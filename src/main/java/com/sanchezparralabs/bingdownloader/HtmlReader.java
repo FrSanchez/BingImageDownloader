@@ -1,3 +1,7 @@
+/*                                                                                                                            
+ * Copyright, 2016, Sanchez Parra Labs
+ * All Rights Reserved
+ */ 
 package com.sanchezparralabs.bingdownloader;
 
 import java.net.HttpURLConnection;
@@ -13,7 +17,6 @@ import org.apache.log4j.Logger;
 
 /**
  * Simple wrapper to read from http connection with a proxy
- * 
  * @author: francisco.sanchez
  */
 public class HtmlReader {

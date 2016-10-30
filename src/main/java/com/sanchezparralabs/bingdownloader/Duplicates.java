@@ -1,3 +1,8 @@
+/*                                                                                                                            
+ * Copyright, 2016, Sanchez Parra Labs
+ * All Rights Reserved
+ */
+
 package com.sanchezparralabs.bingdownloader;
 
 import java.io.File;
@@ -9,6 +14,11 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
+/**
+ * Find duplicate files after downloading
+ * @author francisco.sanchez
+ *
+ */
 public class Duplicates {
     public List<File> findDuplicates(String folder) {
         List<File> dups = new ArrayList<File>();
@@ -27,8 +37,8 @@ public class Duplicates {
         } else {
             throw new InvalidParameterException(folder + " is not a valid folder");
         }
-        
-        for( DupInfo entry : dupFiles.values()) {
+
+        for (DupInfo entry : dupFiles.values()) {
             File tbd = entry.getFileToDelete();
             if (tbd != null) {
                 dups.add(tbd);

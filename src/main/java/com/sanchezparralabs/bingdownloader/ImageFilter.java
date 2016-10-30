@@ -1,3 +1,7 @@
+/*                                                                                                                            
+ * Copyright, 2016, Sanchez Parra Labs
+ * All Rights Reserved
+ */ 
 package com.sanchezparralabs.bingdownloader;
 
 import java.io.File;
@@ -5,6 +9,7 @@ import java.io.FileFilter;
 
 /**
  * A class that implements the Java FileFilter interface.
+ * @author francisco.sanchez
  */
 public class ImageFilter implements FileFilter
 {

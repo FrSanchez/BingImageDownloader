@@ -1,3 +1,7 @@
+/*                                                                                                                            
+ * Copyright, 2016, Sanchez Parra Labs
+ * All Rights Reserved
+ */ 
 package com.sanchezparralabs.bingdownloader;
 
 import java.io.InputStream;
@@ -13,6 +17,11 @@ import java.util.regex.Pattern;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 
+/***
+ * Main orchestrator for the download
+ * @author francisco.sanchez
+ *
+ */
 public class Downloader implements Callback {
 
     private Set<String> locales = null;
