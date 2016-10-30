@@ -9,6 +9,7 @@ import java.security.InvalidParameterException;
 import java.time.Duration;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 
 /**
  * Simple wrapper to read from http connection with a proxy
@@ -17,6 +18,7 @@ import org.apache.commons.lang.StringUtils;
  */
 public class HtmlReader {
 
+    private static Logger  logger = Logger.getLogger(HtmlReader.class);
     private static volatile Proxy proxy = null;
 
     private static void setProxy() throws MalformedURLException {
@@ -36,6 +38,7 @@ public class HtmlReader {
         if (proxy == null) {
             setProxy();
         }
+        logger.info(url);
         HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection(proxy);
         if (timeout != null) {
             connection.setConnectTimeout(1000);
@@ -43,8 +46,9 @@ public class HtmlReader {
         }
         connection.setRequestProperty("Accept", "*/* ");
         int status = connection.getResponseCode();
-        
+        logger.info("Status : " + status);
         boolean validstatus = status >= 200 && status < 300;
+        
         if (validstatus) {
             callback.onSuccess(connection.getInputStream(), connection);
         } else {

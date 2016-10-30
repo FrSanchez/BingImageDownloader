@@ -18,6 +18,10 @@ import org.apache.commons.cli.ParseException;
 public class App
 {
     private static String directory = "";
+    
+    public static String Directory() {
+        return directory;
+    }
 
     public static void main(String[] args) throws ParseException, UnsupportedEncodingException
     {

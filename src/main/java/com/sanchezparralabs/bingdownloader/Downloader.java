@@ -79,7 +79,7 @@ public class Downloader implements Callback {
         while (retry > 0) {
             try {
                 retry--;
-                HtmlReader.loadFromUrl(url, new BingPageHandler(), Duration.ofSeconds(10));
+                HtmlReader.loadFromUrl(url, new BingPageHandler(url), Duration.ofSeconds(10));
                 return;
             } catch (Exception e) {
                 System.err.println(e.getMessage());
