@@ -29,13 +29,23 @@ public class ImageHandler implements Callback {
     private Logger logger = Logger.getLogger(ImageHandler.class);
     private String originalFilename = null;
     private File targetFile = null;
+    private final String path;
 
     public ImageHandler(String url, String path) throws FileAlreadyExistsException {
         Pattern p = Pattern.compile(App.imageNameRegex);
         Matcher m = p.matcher(path);
-
+        this.path = path;
         if (m.find()) {
             originalFilename = String.format("%s_%sx%s.%s", m.group(1), m.group(4), m.group(5), m.group(6));
+        } else {
+            p = Pattern.compile(App.imageNameRegex2);
+            m = p.matcher(path);
+            if (m.find()) {
+                // The name doesn't have localization or size, just the image
+                originalFilename = String.format("%s.%s", m.group(1), m.group(2));
+            }
+        }
+        if (null != originalFilename) {
             logger.info(originalFilename);
             targetFile = new File(App.Directory() + "/" + originalFilename);
             if (targetFile.exists()) {
@@ -47,9 +57,12 @@ public class ImageHandler implements Callback {
     @Override
     public void onError(InputStream inputStream, HttpURLConnection connection) throws Exception {
         Map<String, List<String>> headers = connection.getHeaderFields();
+        System.err.println(path);
         System.err.println(headers);
-        String theString = IOUtils.toString(inputStream, "UTF-8");
-        System.err.println(theString);
+        if (inputStream != null) {
+            String theString = IOUtils.toString(inputStream, "UTF-8");
+            System.err.println(theString);
+        }
     }
 
     @Override

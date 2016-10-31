@@ -1,7 +1,7 @@
 /*                                                                                                                            
  * Copyright, 2016, Sanchez Parra Labs
  * All Rights Reserved
- */ 
+ */
 package com.sanchezparralabs.bingdownloader;
 
 import java.io.InputStream;
@@ -17,7 +17,8 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 
 /***
- * Downloads the bing page for every country 
+ * Downloads the bing page for every country
+ * 
  * @author francisco.sanchez
  *
  */
@@ -47,9 +48,13 @@ public class BingPageHandler implements Callback {
         Pattern p = Pattern.compile(App.imageUrlPattern);
         Matcher m = p.matcher(theString);
         while (m.find()) {
-            if (m.groupCount() >1) {
+            if (m.groupCount() > 1) {
                 try {
-                HtmlReader.loadFromUrl(String.format("http://www.bing.com/%s",m.group(2)), new ImageHandler(url,m.group(2)), Duration.ofSeconds(5));
+                    String imgUrl = String.format("http://www.bing.com/%s", m.group(2));
+                    if (m.group(2).startsWith("http")) {
+                        imgUrl = m.group(2);
+                    }
+                    HtmlReader.loadFromUrl(imgUrl, new ImageHandler(imgUrl, m.group(2)), Duration.ofSeconds(5));
                 } catch (FileAlreadyExistsException fe) {
                     System.err.println("Duplicate " + fe.getMessage());
                 }
