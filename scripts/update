@@ -1,0 +1,10 @@
+#!/bin/bash
+set +x
+
+cd "${BASH_SOURCE%/*}" || exit 
+PWD=`pwd -P`
+echo $PWD
+
+cd $PWD
+#/usr/bin/mono BingDownloader.exe
+java -jar BingDownloader-1.0.jar
