@@ -15,6 +15,7 @@ public class ImageFilter implements FileFilter
 {
     private final String[] okFileExtensions = new String[] { "jpg", "png", "gif" };
 
+    @Override
     public boolean accept(File file)
     {
         for (String extension : okFileExtensions)

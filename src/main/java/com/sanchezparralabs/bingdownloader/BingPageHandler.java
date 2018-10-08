@@ -24,10 +24,10 @@ import org.apache.commons.lang.StringUtils;
  */
 public class BingPageHandler implements Callback {
 
-    private String url;
+    // private String url;
 
     public BingPageHandler(String url) {
-        this.url = url;
+        // this.url = url;
     }
 
     @Override
@@ -44,22 +44,23 @@ public class BingPageHandler implements Callback {
         if (charset == null) {
             charset = "UTF-8";
         }
-        String theString = IOUtils.toString(inputStream, charset.toUpperCase());
-        Pattern p = Pattern.compile(App.imageUrlPattern);
-        Matcher m = p.matcher(theString);
-        while (m.find()) {
-            if (m.groupCount() > 1) {
-                try {
-                    String imgUrl = String.format("http://www.bing.com/%s", m.group(2));
-                    if (m.group(2).startsWith("http")) {
-                        imgUrl = m.group(2);
+//        String theString = IOUtils.toString(inputStream, charset.toUpperCase());
+        for (String line : IOUtils.readLines(inputStream, charset)) {
+            Pattern p = Pattern.compile(App.imageUrlPattern);
+            Matcher m = p.matcher(line);
+            while (m.find()) {
+                if (m.groupCount() > 1) {
+                    try {
+                        String imgUrl = String.format("http://www.bing.com%s", m.group(2));
+                        if (m.group(2).startsWith("http")) {
+                            imgUrl = m.group(2);
+                        }
+                        HtmlReader.loadFromUrl(imgUrl, new ImageHandler(imgUrl, m.group(2)), Duration.ofSeconds(5));
+                    } catch (FileAlreadyExistsException fe) {
+                        System.err.println("Duplicate " + fe.getMessage());
                     }
-                    HtmlReader.loadFromUrl(imgUrl, new ImageHandler(imgUrl, m.group(2)), Duration.ofSeconds(5));
-                } catch (FileAlreadyExistsException fe) {
-                    System.err.println("Duplicate " + fe.getMessage());
                 }
             }
         }
     }
-
 }

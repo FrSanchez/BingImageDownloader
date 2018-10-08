@@ -4,7 +4,5 @@ packages/
 target/
 *.DS_Store
 *.sln.cache
-/.settings/
 dependency-reduced-pom.xml
-.settings/*
-/.settings/
+.settings/
