@@ -1,3 +1,0 @@
-#!/bin/bash
-
-scp -rp fransanchez-wsl1:/home/francisco.sanchez/OneDrive/BingImages/. $HOME/BingImages
