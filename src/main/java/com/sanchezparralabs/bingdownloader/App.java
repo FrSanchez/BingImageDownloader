@@ -22,7 +22,7 @@ import org.apache.commons.cli.ParseException;
  */
 public class App
 {
-    public static final String imageUrlPattern = "(g_img=\\{url\\: \"(?<url>.*?)\",)";
+    public static final String imageUrlPattern = "g_img=.url: \"(?<url>[a-zA-Z0-9-_/]+.[a-z]{3})\"";
     public static final String imageNameRegex = "(?<name>[a-zA-Z0-9]+)_(?<locale>[a-zA-Z\\-]{3,5})*(?<suffix>.*)_(?<sizex>[0-9]+)x(?<sizey>[0-9]+)\\.(?<ext>.*)";
     public static final String imageNameRegex2 = "(?<name>[a-zA-Z0-9_]+)\\.(?<ext>gif|jpg|png)";
 
