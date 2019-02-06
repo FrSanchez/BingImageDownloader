@@ -49,9 +49,6 @@ public class BingPageHandler implements Callback {
         for (String line : IOUtils.readLines(inputStream, charset)) {
             Matcher m = p.matcher(line);
             while (m.find()) {
-                for (int i = 0; i <= m.groupCount(); i++) {
-                    System.out.println(m.group(i));
-                }
                 if (m.groupCount() >= 1) {
                     try {
                         String path = m.group(1);
