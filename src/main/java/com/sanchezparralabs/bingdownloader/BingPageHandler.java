@@ -6,6 +6,7 @@ package com.sanchezparralabs.bingdownloader;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.URLDecoder;
 import java.nio.file.FileAlreadyExistsException;
 import java.time.Duration;
 import java.util.List;
@@ -51,7 +52,7 @@ public class BingPageHandler implements Callback {
             while (m.find()) {
                 if (m.groupCount() >= 1) {
                     try {
-                        String path = m.group(1);
+                        String path = StringUtils.replace(m.group(1), "\\u0026", "&");
                         String imgUrl = String.format("http://www.bing.com%s", path);
                         if (path.startsWith("http")) {
                             imgUrl = path;
