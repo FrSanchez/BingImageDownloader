@@ -70,6 +70,7 @@ public class ImageHandler implements Callback {
     public void onSuccess(InputStream inputStream, HttpURLConnection connection) throws Exception {
         System.out.println("Ignoring");
         if (targetFile != null && !targetFile.exists()) {
+        	System.out.println(String.format("Saving %s", targetFile));
             Files.copy(inputStream, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
         }
     }

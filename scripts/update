@@ -1,12 +1,14 @@
 #!/bin/bash
-set +x
+set -x
 
-cd "${BASH_SOURCE%/*}" || exit 
+cd "${BASH_SOURCE%/*}" || exit
 PWD=`pwd -P`
 echo $PWD
 
 cd "$PWD"
+FOLDER=`date "+%Y-%m"`
+[ -d $FOLDER ] || mkdir $FOLDER
 #/usr/bin/mono BingDownloader.exe
-java -jar BingDownloader-1.0.jar
+java -jar BingDownloader-1.0.jar -d $FOLDER
 # Find if gdrive exists, then upload the new images
 which gdrive && find . -name "*.jpg" -mtime -1 -exec gdrive upload {} \;
