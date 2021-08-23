@@ -29,3 +29,4 @@ dependency-reduced-pom.xml
 .vscode/
 .factorypath
 .idea/
+*.iml
