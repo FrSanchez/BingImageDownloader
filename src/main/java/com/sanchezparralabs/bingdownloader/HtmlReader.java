@@ -13,7 +13,7 @@ import java.security.InvalidParameterException;
 import java.time.Duration;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.logging.log4j.*;
+import org.apache.log4j.Logger;
 
 /**
  * Simple wrapper to read from http connection with a proxy
@@ -21,7 +21,7 @@ import org.apache.logging.log4j.*;
  */
 public class HtmlReader {
 
-    private static final Logger logger = LogManager.getLogger(HtmlReader.class);
+    private static final Logger logger = Logger.getLogger(HtmlReader.class);
     private static volatile Proxy proxy = null;
 
     private static void setProxy() throws MalformedURLException {

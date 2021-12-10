@@ -16,7 +16,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.logging.log4j.*;
+import org.apache.log4j.Logger;
 
 /***
  * Class to save the file locally
@@ -26,7 +26,7 @@ import org.apache.logging.log4j.*;
  */
 public class ImageHandler implements Callback {
 
-    private static final Logger logger = LogManager.getLogger(ImageHandler.class);
+    private static final Logger logger = Logger.getLogger(ImageHandler.class);
     
     private String originalFilename = null;
     private File targetFile = null;

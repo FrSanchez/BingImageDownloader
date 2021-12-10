@@ -6,9 +6,10 @@ PWD=`pwd -P`
 echo $PWD
 
 cd "$PWD"
-FOLDER=`date "+%Y-%m"`
+FOLDER=`date "+%Y-%b"`
 [ -d $FOLDER ] || mkdir $FOLDER
 #/usr/bin/mono BingDownloader.exe
 java -jar BingDownloader-1.0.jar -d $FOLDER
+ln -s $FOLDER/*.jpg all/
 # Find if gdrive exists, then upload the new images
 which gdrive && find . -name "*.jpg" -mtime -1 -exec gdrive upload {} \;
