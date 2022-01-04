@@ -4,24 +4,23 @@
  */ 
 package com.sanchezparralabs.bingdownloader;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.time.Duration;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.function.Consumer;
 
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 /***
  * Main orchestrator for the download
  * @author francisco.sanchez
  *
  */
-public class Downloader implements Callback {
+public class Downloader  {
 
-    private Set<String> locales = null;
+    private Set<String> allUrls = null;
     private boolean initialized = false;
 
     public Downloader() {
@@ -34,37 +33,20 @@ public class Downloader implements Callback {
     }
 
     public void enumerateCountries() throws Exception {
-        HtmlReader.loadFromUrl("http://www.bing.com/account/general?FORM=O2HV46", this, Duration.ofSeconds(2));
-    }
-
-    @Override
-    public void onError(InputStream inputStream, HttpURLConnection connection) throws Exception {
-        Map<String, List<String>> headers = connection.getHeaderFields();
-        System.err.println(headers);
-        String theString = IOUtils.toString(inputStream, "UTF-8");
-        System.err.println(theString);
-        locales = null;
-    }
-
-    @Override
-    public void onSuccess(InputStream inputStream, HttpURLConnection connection) throws Exception {
-        locales = new HashSet<>();
-        Map<String, List<String>> headers = connection.getHeaderFields();
-        System.out.println(headers);
-        String charset = StringUtils.substringAfter(connection.getContentType(), "charset=");
-        if (charset == null) {
-            charset = "UTF-8";
-        }
-        String theString = IOUtils.toString(inputStream, charset.toUpperCase());
-        Pattern p = Pattern.compile("(mkt=([a-zA-Z\\-]*))");
-        Matcher m = p.matcher(theString);
-        while (m.find()) {
-            if (m.groupCount() == 2) {
-                locales.add(m.group(2));
+        allUrls = new HashSet<>();
+        Document settingsForm = Jsoup.connect("http://www.bing.com/account/general?FORM=O2HV46").get();
+        Elements elements = settingsForm.getElementsByAttribute("data-priority");
+        elements.forEach(new Consumer<Element>() {
+            @Override
+            public void accept(Element element) {
+                if (element.tagName() == "li") {
+                    String href = element.childNode(0).attr("href");
+                    allUrls.add(href);
+                }
             }
-            System.out.println(m.group(0));
-        }
+        });
         initialized = true;
+//        HtmlReader.loadFromUrl("http://www.bing.com/account/general?FORM=O2HV46", this, Duration.ofSeconds(2));
     }
 
     public boolean isInitialized() {
@@ -72,15 +54,14 @@ public class Downloader implements Callback {
     }
 
     public void batchDownload() {
-        for (String locale : locales) {
-            download(locale);
+        for (String url : allUrls) {
+            download(url);
         }
 
     }
 
-    private void download(String locale) {
-        System.out.println("Downlading image from " + locale);
-        String url = String.format("http://www.bing.com?scope=web&setmkt=%s", locale);
+    private void download(String url) {
+        System.out.println("Downlading image from " + url);
         int retry = 3;
         while (retry > 0) {
             try {

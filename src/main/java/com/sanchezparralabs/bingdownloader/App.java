@@ -4,18 +4,13 @@
  */ 
 package com.sanchezparralabs.bingdownloader;
 
+import org.apache.commons.cli.*;
+import org.apache.log4j.BasicConfigurator;
+
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
-
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
-
-import org.apache.log4j.BasicConfigurator;
 
 /**
  * Main entry point

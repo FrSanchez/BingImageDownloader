@@ -41,6 +41,9 @@ public class HtmlReader {
         if (proxy == null) {
             setProxy();
         }
+        if (url.contains("platform.bing.com")) {
+            return 0;
+        }
         logger.info(url);
         HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection(proxy);
         if (timeout != null) {
